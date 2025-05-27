@@ -1,3 +1,7 @@
+// ==========================
+// Interfaces
+// ==========================
+
 // Define the Teacher interface
 interface Teacher {
   readonly firstName: string;
@@ -5,8 +9,33 @@ interface Teacher {
   fullTimeEmployee: boolean;
   yearsOfExperience?: number;
   location: string;
-  [key: string]: any;
+  [key: string]: any; // Allows additional properties
 }
+
+// Extend the Teacher interface to create Directors
+interface Directors extends Teacher {
+  numberOfReports: number;
+}
+
+// Define interface for printTeacher function
+interface printTeacherFunction {
+  (firstName: string, lastName: string): string;
+}
+
+// Interface for the constructor
+interface StudentConstructor {
+  new (firstName: string, lastName: string): StudentClassInterface;
+}
+
+// Interface for the class methods
+interface StudentClassInterface {
+  workOnHomework(): string;
+  displayName(): string;
+}
+
+// ==========================
+// Implementations
+// ==========================
 
 // Example usage of Teacher interface
 const teacher3: Teacher = {
@@ -14,15 +43,10 @@ const teacher3: Teacher = {
   lastName: 'Doe',
   fullTimeEmployee: false,
   location: 'London',
-  contract: false,
+  contract: false, // Additional property
 };
 
 console.log(teacher3);
-
-// Extend the Teacher interface to create Directors
-interface Directors extends Teacher {
-  numberOfReports: number;
-}
 
 // Example usage of Directors interface
 const director1: Directors = {
@@ -35,15 +59,34 @@ const director1: Directors = {
 
 console.log(director1);
 
-// Define interface for printTeacher function
-interface printTeacherFunction {
-  (firstName: string, lastName: string): string;
-}
-
-// Implement the function
+// Implement the printTeacher function
 const printTeacher: printTeacherFunction = (firstName, lastName) => {
   return `${firstName.charAt(0)}. ${lastName}`;
 };
 
-// Example usage
-console.log(printTeacher("John", "Doe")); // J. Doe
+// Example usage of printTeacher function
+console.log(printTeacher("John", "Doe")); // Output: J. Doe
+
+// Implementing the StudentClass
+class StudentClass implements StudentClassInterface {
+  private firstName: string;
+  private lastName: string;
+
+  constructor(firstName: string, lastName: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  workOnHomework(): string {
+    return 'Currently working';
+  }
+
+  displayName(): string {
+    return this.firstName;
+  }
+}
+
+// Example usage of StudentClass
+const student = new StudentClass('Alice', 'Smith');
+console.log(student.displayName());     // Output: Alice
+console.log(student.workOnHomework());  // Output: Currently working
